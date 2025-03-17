@@ -1,4 +1,4 @@
-import { Theme, ThemePanel } from "@radix-ui/themes";
+import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -27,7 +27,7 @@ export default function RootLayout({
         <Theme accentColor="teal">
           <Navbar />
           <main className="p-5">{children}</main>
-          <ThemePanel />
+          {/* <ThemePanel /> */}
         </Theme>
       </body>
     </html>
