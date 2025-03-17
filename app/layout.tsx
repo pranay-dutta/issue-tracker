@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${interFont.variable} antialiased`}>
-        <Theme accentColor="teal">
+        <Theme accentColor="violet">
           <Navbar />
           <main className="p-5">{children}</main>
           {/* <ThemePanel /> */}
