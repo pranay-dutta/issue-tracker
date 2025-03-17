@@ -1,17 +1,13 @@
+import { Theme, ThemePanel } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./Navbar";
-import { Theme } from "@radix-ui/themes";
+import "./theme-config.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const interFont = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -27,12 +23,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Theme>
+      <body className={`${interFont.variable} antialiased`}>
+        <Theme accentColor="teal">
           <Navbar />
           <main className="p-5">{children}</main>
+          <ThemePanel />
         </Theme>
       </body>
     </html>
