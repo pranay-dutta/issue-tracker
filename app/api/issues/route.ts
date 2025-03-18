@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 import prisma from "@/prisma/client";
-import { createIssueSchema } from "../../validationSchemas";
+import { issueSchema } from "../../validationSchemas";
+import { z } from "zod";
 
-type Issue = z.infer<typeof createIssueSchema>;
+type IssueData = z.infer<typeof issueSchema>;
 
 export async function POST(request: NextRequest) {
-  const body: Issue = await request.json();
-  const validation = createIssueSchema.safeParse(body);
+  const body: IssueData = await request.json();
+  const validation = issueSchema.safeParse(body);
 
   /* If client sent invalid data */
   if (!validation.success)
