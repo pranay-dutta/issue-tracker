@@ -3,11 +3,12 @@ import { issueSchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
 import { z } from "zod";
 
+interface Props {
+  params: Promise<{ id: string }>;
+}
+
 type IssueData = z.infer<typeof issueSchema>;
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PATCH(request: NextRequest, { params }: Props) {
   const body: IssueData = await request.json();
   const validation = issueSchema.safeParse(body);
 
@@ -15,8 +16,9 @@ export async function PATCH(
     return NextResponse.json(validation.error.format(), { status: 400 });
 
   //Find the issue in the database which need to be updated
+  const { id } = await params;
   const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: parseInt(id) },
   });
 
   if (!issue)
