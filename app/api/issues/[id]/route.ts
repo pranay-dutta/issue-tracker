@@ -1,7 +1,9 @@
 import { issueSchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { authOptions } from "@/app/auth/authOptions";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -9,6 +11,10 @@ interface Props {
 
 type IssueData = z.infer<typeof issueSchema>;
 export async function PATCH(request: NextRequest, { params }: Props) {
+  //If there is no user don't update the issue
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({}, { status: 401 });
+
   const body: IssueData = await request.json();
   const validation = issueSchema.safeParse(body);
 
@@ -36,6 +42,10 @@ export async function PATCH(request: NextRequest, { params }: Props) {
 }
 
 export async function DELETE(request: NextRequest, { params }: Props) {
+  //If there is no user don't delete the issue
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({}, { status: 401 });
+
   const { id } = await params;
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(id) },
