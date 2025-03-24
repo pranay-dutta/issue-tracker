@@ -78,6 +78,7 @@ const AuthStatus = () => {
             radius="full"
             size="2"
             fallback="?"
+            referrerPolicy="no-referrer"
           />
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
