@@ -74,6 +74,7 @@ const AuthStatus = () => {
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
           <Avatar
+            className="cursor-pointer"
             src={session!.user!.image!}
             radius="full"
             size="2"
