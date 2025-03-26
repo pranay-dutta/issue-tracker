@@ -1,5 +1,11 @@
 import Pagination from "./components/Pagination";
+interface Props {
+  searchParams: Promise<{ page: string }>;
+}
 
-export default function Home() {
-  return <Pagination itemCount={100} pageSize={10} currentPage={1} />;
+export default async function Home({ searchParams }: Props) {
+  const { page } = await searchParams;
+  return (
+    <Pagination itemCount={100} pageSize={10} currentPage={parseInt(page)} />
+  );
 }
