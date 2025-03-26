@@ -11,11 +11,11 @@ interface Props {
 
 const IssuePage = async ({ searchParams }: Props) => {
   const statuses = Object.values(Status);
-  const { status, orderBy, page } = await searchParams;
+  const { status, orderBy, page, sort } = await searchParams;
 
   const statusQuery = statuses.includes(status) ? status : undefined;
   const orderByQuery = columnNames.includes(orderBy)
-    ? { [orderBy]: "asc" }
+    ? { [orderBy]: sort }
     : undefined;
   const pageQuery = parseInt(page) || 1;
   const pageSize = 10;
