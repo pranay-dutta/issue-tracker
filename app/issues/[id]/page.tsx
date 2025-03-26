@@ -7,19 +7,22 @@ import AssigneeSelect from "./AssigneeSelect";
 import DeleteIssueButton from "./DeleteIssueButton";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
+import { cache } from "react";
 
 interface Props {
   params: Promise<{ id: string }>;
 }
-
+const fetchUser = cache((issueId: number) =>
+  prisma.issue.findUnique({
+    where: { id: issueId },
+  })
+);
 const IssueDetailsPage = async ({ params }: Props) => {
   const { id } = await params;
-  const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(id) },
-  });
+  const issue = await fetchUser(parseInt(id));
   if (!issue) notFound();
-  const session = await getServerSession(authOptions);
 
+  const session = await getServerSession(authOptions);
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap="5">
       <Box className="md:col-span-4">
@@ -40,9 +43,7 @@ const IssueDetailsPage = async ({ params }: Props) => {
 };
 
 export async function generateMetadata({ params }: Props) {
-  const issue = await prisma.issue.findUnique({
-    where: { id: parseInt((await params).id) },
-  });
+  const issue = await fetchUser(parseInt((await params).id));
   return {
     title: issue?.title,
     description: "Details of issue" + issue?.id,
