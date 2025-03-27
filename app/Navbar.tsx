@@ -11,16 +11,23 @@ import {
 import classNames from "classnames";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { AiFillBug } from "react-icons/ai";
 
 const Navbar = () => {
+  const router = useRouter();
   return (
     <nav className="border-b mb-5 px-5 py-3">
       <Container>
         <Flex justify="between">
           <Flex align="center" gap="3">
-            <Link href="/">
+            <Link
+              href="/"
+              onClick={() => {
+                router.push("/");
+                router.refresh();
+              }}
+            >
               <AiFillBug />
             </Link>
             <NavLinks />
@@ -35,6 +42,7 @@ const Navbar = () => {
 };
 const NavLinks = () => {
   const currentPath = usePathname();
+  const router = useRouter();
   const links = [
     { label: "Dashboard", href: "/" },
     { label: "Issues", href: "/issues" },
@@ -45,6 +53,10 @@ const NavLinks = () => {
         return (
           <li key={i}>
             <Link
+              onClick={() => {
+                router.push("/");
+                router.refresh();
+              }}
               className={classNames({
                 "nav-link": true,
                 "!text-zinc-900": currentPath === href,

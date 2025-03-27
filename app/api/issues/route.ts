@@ -4,6 +4,7 @@ import { issueSchema } from "../../validationSchemas";
 import { z } from "zod";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/auth/authOptions";
+import { revalidatePath } from "next/cache";
 
 type IssueData = z.infer<typeof issueSchema>;
 
@@ -25,5 +26,6 @@ export async function POST(request: NextRequest) {
     },
   });
 
+  revalidatePath("/");
   return NextResponse.json(newIssue, { status: 200 });
 }

@@ -2,8 +2,8 @@ import { patchIssueSchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-// import { z } from "zod";
 import { authOptions } from "@/app/auth/authOptions";
+import { revalidatePath } from "next/cache";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -48,6 +48,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
     },
   });
 
+  revalidatePath("/")
   return NextResponse.json(updatedIssue, { status: 200 });
 }
 
